@@ -1,0 +1,72 @@
+html, body{
+  width: 100% !important;
+}
+.container-fluid {
+  background-color: #d5d7d5;
+}
+.toolbar{
+  background-color: #00CED1;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.verticalLine {
+  border-left: thick solid white;
+  padding-left: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.logo-img {
+  max-width: 80%;
+  height: auto;
+  max-height: 165px;
+  padding-right: 5px;
+  margin-left: 5px;
+}
+.bag-img{
+  height: 30px;
+  width: auto;
+  max-width: 45%;
+  margin: 0 auto;
+}
+
+.qr-img{
+  height: 30px;
+  width: auto;
+  max-width: 45%;
+  margin: 0 auto;
+}
+
+.logo {
+  width: 80%;
+}
+.shop-link{
+  width: 20%;
+}
+.shop-link img{
+  margin: 0 10px;
+}
+@media (max-width: 992px){
+  .shop-link{
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+  }
+  .shop-link img{
+      margin: 0 auto;
+  }
+}
+@media (max-width: 767px){
+  .shop-link{
+      width: 40%;
+  }
+  .settings-img{
+      margin-right: 9px;
+      margin-left: 7px;
+  }
+  .logo {
+      width: 60%;
+  }
+}

@@ -1,0 +1,284 @@
+
+.cards {
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10%;
+  background-color: transparent;
+  box-shadow: none;
+  max-width: 800px;
+}
+h4 {
+  margin-bottom: 45px;
+  font-size: 27px;
+  letter-spacing: .02em;
+  font-family: 'Work Sans', sans-serif;
+}
+.list{
+  margin: auto;
+  align-self: flex-start;
+  width: 100%;
+  height: 130px;
+  box-shadow: none;
+  border-radius: 0%;
+  box-sizing: border-box;
+}
+
+.total{
+  margin: auto;
+  align-self: flex-start;
+  width: 100%;
+  height: 130px;
+  margin-top: 2%;
+  box-shadow: none;
+  border-radius: 0%;
+  box-sizing: border-box;
+}
+
+.line{
+  margin: auto;
+  background-color: transparent;
+  align-self: flex-start;
+  width: 100%;
+  margin-top: 2%;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.btn-pay{
+  display: block;
+  margin: auto;
+  margin-top: 1%;
+  border-radius: 0%;
+  font-family: 'Work Sans', sans-serif;
+  border-color: black;
+  font-size: 100%;
+}
+
+.space{
+    background-color: black;
+}
+
+.total-string, .clear{
+    text-align: left;
+}
+
+.total-price, .price{
+    text-align: right;
+    padding-right: 9%;
+}
+
+.purchase-list, .total-amount{
+  width: 100%;
+  height: 100%;
+  margin-left: 1%;
+  margin-right: 5%;
+  text-align: center;
+  font-family: 'Work Sans', sans-serif;
+}
+
+.flex{
+  display: flex;
+}
+
+.flex-space-between{
+  justify-content: space-between;
+}
+
+.detail {
+  background: RGBA(255,255,255,0.3);
+  max-width: 470px;
+  margin: 0 auto;
+  padding: 20px 30px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.login .detail{
+  background: RGBA(255,255,255,0.8);
+  text-align: center;
+}
+
+.content{
+  padding-top: 60px;
+  background-color: #EFEFEF;
+  min-height: calc(100vh);
+}
+.content.purchase{
+  background: #EFEFEF;
+}
+
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+.name{
+  letter-spacing: .1em;
+  margin-bottom: 0;
+  text-align: left;
+}
+.line{
+  padding: 0 !important;
+  margin-top: 60px !important;
+  margin-bottom: 40px !important;
+}
+
+.white{
+  background-color: white;
+}
+
+.btn {
+  letter-spacing: .07em;
+  border: 1px #333 solid;
+  border-radius: 0 !important;
+  max-width: 300px !important;
+  min-width: 200px !important;
+  margin: 0 auto;
+  padding: 14px 30px !important;
+  background: transparent;
+  font-size: 1.1em !important;
+}
+.add-to-cart .btn{
+  border: 1px #fff solid;
+  color: #fff;
+}
+.add-to-cart.login .btn{
+  border: 1px #333 solid;
+  color:  #333;
+}
+
+.add-to-cart {
+  position: fixed;
+  width: 100%;
+  margin: auto;
+  height: 110vh;
+  background-color: RGBA(0,206,209,0.7);
+  color: white;
+  text-align: center;
+}
+.add-to-cart.final{
+  background: #00CED1;
+  z-index: 3;
+}
+.add-to-cart.login{
+  background: #f2f2f2;
+  color: #212529;
+}
+
+.add-to-cart.hide{
+  display: none;
+  top: 100%;
+  opacity: 0;
+  transition: .3s ease-in-out;
+}
+.add-to-cart.show{
+  display: block;
+  top: 0;
+  opacity: 1;
+  transition: .3s ease-in-out;
+}
+.valign {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.add-to-cart img {
+  width: 110px;
+  margin-bottom: 20px;
+}
+.add-to-cart h3 {
+  margin-bottom: 50px;
+}
+
+.total {
+  font-weight: bold;
+}
+.btn-pay{
+  margin-bottom: 16px !important;
+}
+
+.action_bottom {
+  margin-top: 30px;
+}
+
+.container{
+  position: relative;
+  padding-top: 3%;
+}
+
+.border-bottom{
+  border-bottom: 1px #bbb solid;
+}
+.align-items-center{
+  align-items: center;
+}
+.login-success{
+  background-color: RGBA(33,37,41,0.9);
+}
+.login-success p {
+  margin-bottom: 28px;
+}
+.login-success h3 {
+  margin-bottom: 18px;
+}
+
+button.mat-button.mat-button-base {
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: inherit;
+}
+
+.action_bottom{
+  display: flex;
+}
+
+@media (max-width: 767px) {
+
+  h4 {
+    font-size: 1.1em;
+  }
+  .content.added{
+    max-height: 100vh;
+    overflow: hidden;
+  }
+  .list, .total{
+    height: 80px !important;
+  }
+  .line {
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;
+  }
+  .verticalLine {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .purchase-list, .total-amount{
+    font-size: 1.1em;
+  }
+  .detail-info .btn {
+    margin-bottom: 0px;
+    }
+   .btn{
+    margin-bottom: 16px !important;
+   }
+}
+@media (min-width: 992px) {
+  .bag-img{
+    width: 50px;
+  }
+   .detail{
+     margin-bottom: 40px;
+   }
+
+}

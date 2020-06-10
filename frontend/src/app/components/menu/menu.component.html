@@ -1,0 +1,17 @@
+<div class="content">
+  <div class="container">
+      <div class="concerts">
+          <h1>Concerts</h1>
+          <div class="row four-columns-xl flex flex-space-betweeen">
+              <div *ngFor="let concert of concertsList; index as i" class="concert-box  flex-column"
+                  (click)="showDetail(i)" [routerLink]="['/detail']">
+                  <img src="assets\{{concertsList[i].img}}" alt="concert">
+                  <div class="info">
+                      <h2>{{concertsList[i].singer}}</h2>
+                      <p class="price">{{concertsList[i].price}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

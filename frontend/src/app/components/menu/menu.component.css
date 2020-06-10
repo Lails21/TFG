@@ -1,0 +1,74 @@
+.concert-box{
+  background-color: #fff;
+  margin-bottom: 20px;
+  margin-left: auto;
+}
+.info{
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px !important;
+}
+.flex{
+  display: flex;
+}
+.flex-space-between{
+  justify-content: space-between;
+}
+.content{
+  padding-top: 60px;
+  background-color: #EFEFEF;
+  min-height: calc(100vh);
+}
+img{
+  max-width: 100%;
+  height: auto;
+}
+.info h2 {
+  text-transform: uppercase;
+  font-size: 1.01em;
+  font-weight: bold;
+  letter-spacing: .1em;
+}
+.price {
+  color: #00CED1;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+.four-columns-xl .concert-box, .two-columns-xl {
+  width: 100%;
+}
+.concerts {
+  padding: 20px 12px;
+}
+.container{
+  position: relative;
+  padding-top: 3%;
+}
+
+@media (max-width: 767px) {
+  h1 {
+    font-size: 2em;
+  }
+}
+
+@media (min-width: 768px) {
+  .four-columns-xl .concert-box {
+    width: 48%;
+   }
+}
+
+@media (min-width: 992px) {
+  .four-columns-xl .concert-box {
+    width: 31%;
+   }
+   .two-columns-xl {
+     width: 48%;
+     margin: 0 1%;
+   }
+}
+@media (min-width: 1200px) {
+  .four-columns-xl .concert-box {
+    width: 23%;
+   }
+ }

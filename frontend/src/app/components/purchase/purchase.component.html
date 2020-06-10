@@ -1,0 +1,115 @@
+<div class="content purchase">
+  <div class="container">
+    <mat-card class="cards">
+      <h4>Your purchase</h4>
+      <mat-card class="list">
+        <table class="purchase-list">
+          <tr>
+            <td class="clear" style="color: black; display: none;">
+              <mat-icon>clear</mat-icon>
+            </td>
+            <td class="singer" style="color: black;">
+              <p class="name">{{concertsList[i].singer}}</p>
+            </td>
+            <td class="price" style="color: black">{{concertsList[i].price}}</td>
+          </tr>
+        </table>
+      </mat-card>
+      <mat-card class="total">
+        <table class="total-amount">
+          <tr>
+            <td class="total-string name" style="color: black">TOTAL</td>
+            <td class="total-price" style="color: black">{{concertsList[i].price}}</td>
+          </tr>
+        </table>
+      </mat-card>
+      <mat-card class="line">
+        <hr class="space">
+      </mat-card>
+      <div class="button-login">
+        <button class="btn-pay btn btn-xl" (click)="goToPurchaseSummary()">Login and Pay</button>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="add-to-cart final" [ngClass]="{show: successShow, hide: !successShow}">
+    <div class="valign">
+      <div class="container">
+        <img src="assets/success.png" alt="success">
+        <h3>Successful Payment</h3>
+        <div class="detail">
+          <p>Detail</p>
+          <hr class="white">
+          <div class="info-detail">
+            <div class="flex flex-space-between">
+              <p>Item</p>
+              <p>{{concertsList[i].singer}} singer</p>
+            </div>
+            <div class="flex  flex-space-between">
+              <p>Payment Amount</p>
+              <p>{{concertsList[i].price}}</p>
+            </div>
+          </div>
+
+
+        </div>
+        <button class="btn white" [routerLink]="['/']">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="add-to-cart final" [ngClass]="{show: failShow, hide: !failShow}">
+    <div class="valign">
+      <div class="container">
+        <img src="assets\fail.png" alt="success">
+        <h3>Failed Payment</h3>
+        <p style="margin-bottom: 0;">Something went wrong.</p>
+        <p style="margin-bottom: 50px;">Sorry we were unable to process your payment.</p>
+        <button class="btn white" [routerLink]="['/']">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="add-to-cart final" [ngClass]="{show: digitalShow, hide: !digitalShow}">
+    <div class="valign">
+      <div class="container">
+        <img src="assets\info.png" alt="success">
+        <h3>Your Purchase</h3>
+        <div class="detail">
+          <p>Detail</p>
+          <hr class="white">
+          <div class="info-detail">
+            <div class="flex flex-space-between">
+              <p>Item</p>
+              <p>{{concertsList[i].singer}}</p>
+            </div>
+            <div class="flex flex-space-between">
+              <p>Payment Amount</p>
+              <p>{{concertsList[i].price}}</p>
+            </div>
+          </div>
+
+
+        </div>
+        <button class="btn white" [routerLink]="['/']">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="add-to-cart login" [ngClass]="{show: xldigitalShow, hide: !xldigitalShow}">
+    <div class="valign">
+      <div class="container">
+        <h3>Please scan the QR to continue</h3>
+        <div class="detail">
+          <div><img [src]="qr | safe: 'resourceUrl'"/></div>
+            <div class="info-detail">
+              <div class="action_bottom">
+                <input class="btn white" type="submit" value="Login">
+              </div>
+              <p style="text-decoration: underline; text-align: center; cursor: pointer;"
+                (click)="xldigitalShow = !xldigitalShow">Go Back</p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

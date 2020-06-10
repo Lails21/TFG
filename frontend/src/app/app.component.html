@@ -1,0 +1,13 @@
+<div>
+  <mat-toolbar class="toolbar flex flex-space-around">
+      <div class="logo flex flex-start" [routerLink]="['/']">
+          <img src="assets/logo.png" class="logo-img" alt="logo">
+      </div>
+      <div class="shop-link">
+          <img src="assets/bag.png" class="bag-img" alt="bag" [routerLink]="['/']">
+          <img src="assets/settings.png" class="settings-img" alt="settings">
+      </div>
+
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+</div>

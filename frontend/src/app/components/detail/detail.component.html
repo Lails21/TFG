@@ -1,0 +1,31 @@
+<div class="content" [ngClass]="{notadded: shouldShow, added: !shouldShow}">
+  <div class="container">
+      <div class="row">
+          <div class="concert-photo two-columns-xl white">
+              <img src="assets\{{concertsList[i].img}}" alt="concert">
+          </div>
+          <div class="detail-info two-columns-xl white">
+              <div class="info-box">
+                  <h1>{{concertsList[i].singer}}</h1>
+                  <p class="price">{{concertsList[i].price}}</p>
+                  <div class="concert-detail">
+                      <p>Location: {{concertsList[i].location}}</p>
+                      <p>Date: {{concertsList[i].date}}</p>
+                      <p>Time: {{concertsList[i].time}}</p>
+                  </div>
+              </div>
+              <button class="btn" (click)="shouldShow = !shouldShow">Add to cart</button>
+          </div>
+      </div>
+  </div>
+
+  <div class="add-to-cart" [ngClass]="{hide: shouldShow, show: !shouldShow}">
+      <div class="valign">
+          <div class="container">
+              <img src="assets\success.png" alt="success">
+              <h3>Ticket added to the cart!</h3>
+              <button class="btn white" [routerLink]="['/purchase']" (click)="checkout(i)">Proceed to checkout</button>
+          </div>
+      </div>
+  </div>
+</div>
