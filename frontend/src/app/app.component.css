@@ -25,12 +25,6 @@ html, body{
   padding-right: 5px;
   margin-left: 5px;
 }
-.bag-img{
-  height: 30px;
-  width: auto;
-  max-width: 45%;
-  margin: 0 auto;
-}
 
 .qr-img{
   height: 30px;
@@ -46,8 +40,9 @@ html, body{
   width: 20%;
 }
 .shop-link img{
-  margin: 0 10px;
+  margin: 0 30px;
 }
+
 @media (max-width: 992px){
   .shop-link{
       justify-content: space-between;

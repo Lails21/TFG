@@ -11,6 +11,7 @@ import { PurchaseComponent } from './components/purchase/purchase.component';
 import {HttpClientModule} from '@angular/common/http';
 import { QRCodeModule } from 'angularx-qrcode';
 import { SafePipe } from './safe.pipe';
+import { ConcertsComponent } from './components/concerts/concerts.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SafePipe } from './safe.pipe';
     MenuComponent,
     DetailComponent,
     PurchaseComponent,
-    SafePipe
+    SafePipe,
+    ConcertsComponent
   ],
   imports: [
     BrowserModule,

@@ -2,16 +2,16 @@
   <div class="container">
       <div class="row">
           <div class="concert-photo two-columns-xl white">
-              <img src="assets\{{concertsList[i].img}}" alt="concert">
+              <img src="assets\{{concert.img}}" alt="concert">
           </div>
           <div class="detail-info two-columns-xl white">
               <div class="info-box">
-                  <h1>{{concertsList[i].singer}}</h1>
-                  <p class="price">{{concertsList[i].price}}</p>
+                  <h1>{{concert.singer}}</h1>
+                  <p class="price">{{concert.price}}</p>
                   <div class="concert-detail">
-                      <p>Location: {{concertsList[i].location}}</p>
-                      <p>Date: {{concertsList[i].date}}</p>
-                      <p>Time: {{concertsList[i].time}}</p>
+                      <p>Location: {{concert.location}}</p>
+                      <p>Date: {{concert.date}}</p>
+                      <p>Time: {{concert.time}}</p>
                   </div>
               </div>
               <button class="btn" (click)="shouldShow = !shouldShow">Add to cart</button>
@@ -24,7 +24,7 @@
           <div class="container">
               <img src="assets\success.png" alt="success">
               <h3>Ticket added to the cart!</h3>
-              <button class="btn white" [routerLink]="['/purchase']" (click)="checkout(i)">Proceed to checkout</button>
+              <button class="btn white" (click)="viewConcert(concert._id)">Proceed to checkout</button>
           </div>
       </div>
   </div>

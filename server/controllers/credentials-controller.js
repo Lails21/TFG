@@ -9,18 +9,17 @@ const Contract = require('@truffle/contract');
 const {Resolver} = require ('did-resolver');
 const {getResolver} = require('ethr-did-resolver');
 const app = express();
+var mongoose = require('mongoose');
+var id = mongoose.Types.ObjectId();
+
+const User = require('../models/user');
+const Concert = require('../models/concert');
 
 const credentialsController = {};
 var ticketInfo;
+var infoStore;
 const providerConfig = { rpcUrl: 'https://rinkeby.infura.io/ethr-did'}
 const ethrDidResolver = getResolver(providerConfig)
-
-/*let DidReg = Contract(DidRegistryContract)
-DidReg.setProvider(providerConfig)
-let didReg = DidReg.deployed()
-console.log('didReg');
-console.log(didReg);*/
-
 
 // setup Credentials object with newly created application identity.
 const credentials = new Credentials({
@@ -50,44 +49,80 @@ credentialsController.ticketInfo = (req, res) => {
   ticketInfo = req.body;
 }
 
+credentialsController.getUsers = async (req, res) => {
+  const getUser = await User.find();
+  res.json(getUser);
+}
+
+credentialsController.getConcerts = async (req, res) => {
+  const concerts = await Concert.find();
+  res.json(concerts);
+}
+
+credentialsController.findUserByDID = async (req, res) => {
+  const getUserbyDID = await User.findOne({did: req.params.did}).populate('concerts').select({concerts: 1});
+  res.json(getUserbyDID);
+}
+
+credentialsController.getConcertbyId = async (req, res) => {
+  console.log(req.params.idConcert)
+  const concert = await Concert.findById(req.params.idConcert);
+  res.json(concert);
+}
+
 credentialsController.authCredentials = (req, res) => {
     console.log("AUTHENTICATION");
-
     const jwt = req.body.access_token
-    credentials.authenticateDisclosureResponse(jwt).then(creds => {
-      console.log('JWT CODED');
-      console.log(jwt);
-      console.log('JWT DECODED');
-      console.log(decodeJWT(jwt))
-      console.log('CREDS');
-      console.log(creds);
-      console.log('PUSH TOKEN DECODED');
-      console.log(decodeJWT(creds.pushToken))
-
-    const push = transports.push.send(creds.pushToken, creds.boxPub);
+    credentials.authenticateDisclosureResponse(jwt).then(async creds => {
+      console.log('USUARIO PARA GUARDAR');
+      console.log(creds.did);
+      console.log('TICKET PARA GUARDAR');
+      console.log(ticketInfo);
       
+      const user = await User.find({did: creds.did});
+      console.log(user);
+      if(user.length == 0){
+        const newUser = new User({
+          did: creds.did,
+          concerts: [ticketInfo.idConcert]
+        });
+        newUser.save(); 
+      } else {
+        console.log("ELSEE")
+        const userUpdated = await User.findOneAndUpdate({did: user[0].did}, {$addToSet: {concerts: ticketInfo.idConcert}});
+        res.json(userUpdated);
+      }
+        
+
+      const push = transports.push.send(creds.pushToken, creds.boxPub);
+    
+      const concert = await Concert.findById(ticketInfo.idConcert);
+      console.log(concert)
+
       credentials.createVerification({
         sub: creds.did,
         exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
         claim: {'Concert' : {
           'Last Seen' : `${new Date()}`,
-          'singer': ticketInfo.singer,
-          'price': ticketInfo.price,
-          'location': ticketInfo.location,
-          'date': ticketInfo.date,
-          'time': ticketInfo.time,
+          'singer': concert.singer,
+          'price': concert.price,
+          'location': concert.location,
+          'date': concert.date,
+          'time': concert.time,
           'owner': creds.did
         }}
       }).then(attestation => {
         console.log('attestation');
       console.log(attestation);
-        console.log(`Encoded JWT sent to user: ${attestation}`)
-        console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
+        //console.log(`Encoded JWT sent to user: ${attestation}`)
+        //console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
         return push(attestation)  // *push* the notification to the user's uPort mobile app.
       }).then(res => {
         console.log(res)
         console.log('Push notification sent and should be recieved any moment...')
         console.log('Accept the push notification in the uPort mobile application')
+      }).catch(res =>{
+
       })
     })
 }

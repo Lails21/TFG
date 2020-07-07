@@ -5,7 +5,7 @@ const router = require('./routes/routes.js')
 const ngrok = require('ngrok');
 const cors = require ('cors');
 
-const {mongoose} = require('./database');
+const { mongoose } = require('./database');
 
 // Settings
 app.set('port', 3000);

@@ -9,9 +9,9 @@
               <mat-icon>clear</mat-icon>
             </td>
             <td class="singer" style="color: black;">
-              <p class="name">{{concertsList[i].singer}}</p>
+              <p class="name">{{concert.singer}}</p>
             </td>
-            <td class="price" style="color: black">{{concertsList[i].price}}</td>
+            <td class="price" style="color: black">{{concert.price}}</td>
           </tr>
         </table>
       </mat-card>
@@ -19,7 +19,7 @@
         <table class="total-amount">
           <tr>
             <td class="total-string name" style="color: black">TOTAL</td>
-            <td class="total-price" style="color: black">{{concertsList[i].price}}</td>
+            <td class="total-price" style="color: black">{{concert.price}}</td>
           </tr>
         </table>
       </mat-card>
@@ -43,11 +43,11 @@
           <div class="info-detail">
             <div class="flex flex-space-between">
               <p>Item</p>
-              <p>{{concertsList[i].singer}} singer</p>
+              <p>{{concert.singer}} singer</p>
             </div>
             <div class="flex  flex-space-between">
               <p>Payment Amount</p>
-              <p>{{concertsList[i].price}}</p>
+              <p>{{concert.price}}</p>
             </div>
           </div>
 
@@ -81,11 +81,11 @@
           <div class="info-detail">
             <div class="flex flex-space-between">
               <p>Item</p>
-              <p>{{concertsList[i].singer}}</p>
+              <p>{{concert.singer}}</p>
             </div>
             <div class="flex flex-space-between">
               <p>Payment Amount</p>
-              <p>{{concertsList[i].price}}</p>
+              <p>{{concert.price}}</p>
             </div>
           </div>
 
@@ -101,7 +101,7 @@
       <div class="container">
         <h3>Please scan the QR to continue</h3>
         <div class="detail">
-          <div><img [src]="qr | safe: 'resourceUrl'"/></div>
+          <div class="qr-container"><img [src]="qr | safe: 'resourceUrl'"/></div>
             <div class="info-detail">
               <div class="action_bottom">
                 <input class="btn white" type="submit" value="Login">

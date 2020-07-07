@@ -15,14 +15,22 @@ export class LoginService {
     return this.http.get(this.URL_API);
   }
 
-  sendConcertInfo(img: string, singer: string, price: string, location: string, date: string, time: string) {
+  getConcerts() {
+    return this.http.get(this.URL_API + 'getConcerts');
+  }
+
+  sendConcertInfo(idConcert: string) {
     return this.http.post(this.URL_API + 'ticketInfo', {
-      img: img,
-      singer: singer,
-      price: price,
-      location: location,
-      date: date,
-      time: time
+      idConcert: idConcert
     });
   }
+
+  getConcertsByUser(did: string) {
+    return this.http.get(this.URL_API + 'findUserByDID/' + did);
+  }
+
+  getConcertByID(idConcert: string) {
+    return this.http.get(this.URL_API + 'getConcert/' + idConcert);
+  }
+
 }

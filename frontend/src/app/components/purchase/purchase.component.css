@@ -112,7 +112,7 @@ h4 {
 
 img{
   max-width: 100%;
-  height: auto;
+  height: 250px;
 }
 
 .name{
@@ -186,7 +186,7 @@ img{
   transform: translateY(-50%);
 }
 .add-to-cart img {
-  width: 110px;
+  width: 250px;
   margin-bottom: 20px;
 }
 .add-to-cart h3 {
