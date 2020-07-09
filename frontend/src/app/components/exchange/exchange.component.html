@@ -1,0 +1,24 @@
+<div class="content" [ngClass]="{notadded: shouldShow, added: !shouldShow}">
+  <div class="container">
+      <div class="row">
+          <div class="concert-photo two-columns-xl white">
+              <img src="assets\{{concert.img}}" alt="concert">
+          </div>
+          <div class="detail-info two-columns-xl white">
+              <div class="info-box">
+                  <h1>{{concert.singer}}</h1>
+                  <p class="price">{{concert.price}}</p>
+                  <div class="concert-detail">
+                      <p>Location: {{concert.location}}</p>
+                      <p>Date: {{concert.date}}</p>
+                      <p>Time: {{concert.time}}</p>
+                  </div>
+              </div>
+
+              <form class="example-form">
+                <mat-form-field class="example-full-width" style="margin-right: 30px;">
+                  <mat-label style="font-family: 'Work Sans', sans-serif;">Friend's DID</mat-label>
+                  <input matInput placeholder="did:ethr:XX" style="font-family: 'Work Sans', sans-serif;" type="didFriend" [(ngModel)]="didFriend" name="didFriend">
+                </mat-form-field>
+              <button class="btn" type="submit" value="submit" (click)="getFriendDID()">Send</button>
+

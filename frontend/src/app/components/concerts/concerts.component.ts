@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
+import { Concert } from 'src/app/models/concert';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-concerts',
@@ -8,12 +10,25 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class ConcertsComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  concertsUser: Concert[] = [];
+  didOwner: string;
+
+  constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
-   this.loginService.getConcertsByUser('did:ethr:0xb50df7f85f0c812e99c3f95f209fb6a2d8e934b5')
+
+  }
+
+  viewConcert(_id: string) {
+    console.log(_id);
+    this.router.navigate(['/exchange', _id]);
+  }
+
+  getOwnerDID() {
+    this.loginService.getConcertsByUser(this.didOwner)
    .subscribe(res => {
-    console.log(res);
+     console.log(res);
+     this.concertsUser = res as Concert[];
   }, err => {
   });
   }

@@ -1,1 +1,20 @@
-<p>concerts works!</p>
+<div class="content">
+  <div class="container">
+      <div class="concerts">
+          <h4>Insert your DID:</h4>
+          <form class="example-form">
+            <mat-form-field class="example-full-width" style="margin-right: 30px;">
+              <mat-label style="font-family: 'Work Sans', sans-serif;">Owner's DID</mat-label>
+              <input matInput placeholder="did:ethr:XX" style="font-family: 'Work Sans', sans-serif;" type="didOwner" [(ngModel)]="didOwner" name="didOwner">
+            </mat-form-field>
+          <button class="btn" type="submit" value="submit" (click)="getOwnerDID()">Send</button>
+          <div class="row four-columns-xl flex flex-space-betweeen">
+              <div *ngFor="let concert of concertsUser; index as i" class="concert-box  flex-column"
+                (click)="viewConcert(concert._id)">
+                  <img src="assets\{{concertsUser[i].img}}" alt="concert">
+                  <div class="info">
+                      <h2>{{concertsUser[i].singer}}</h2>
+                      <p class="price">{{concertsUser[i].price}}</p>
+                  </div>
+              </div>
+          </div>

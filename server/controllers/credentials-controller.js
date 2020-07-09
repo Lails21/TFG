@@ -61,7 +61,7 @@ credentialsController.getConcerts = async (req, res) => {
 
 credentialsController.findUserByDID = async (req, res) => {
   const getUserbyDID = await User.findOne({did: req.params.did}).populate('concerts').select({concerts: 1});
-  res.json(getUserbyDID);
+  res.json(getUserbyDID.concerts);
 }
 
 credentialsController.getConcertbyId = async (req, res) => {
@@ -93,7 +93,6 @@ credentialsController.authCredentials = (req, res) => {
         res.json(userUpdated);
       }
         
-
       const push = transports.push.send(creds.pushToken, creds.boxPub);
     
       const concert = await Concert.findById(ticketInfo.idConcert);
