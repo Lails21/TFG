@@ -25,6 +25,13 @@ export class LoginService {
     });
   }
 
+  sendOwnerAndConcert(ownerDID: string, concertID: string) {
+    return this.http.post(this.URL_API + 'updateUser', {
+      ownerDID: ownerDID,
+      concertID: concertID
+    });
+  }
+
   getConcertsByUser(did: string) {
     return this.http.get(this.URL_API + 'findUserByDID/' + did);
   }

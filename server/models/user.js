@@ -4,8 +4,8 @@ const {Schema} = mongoose;
 const UserSchema = new Schema({
     did: { type: String, required: true},
     concerts: [{
-        type: Schema.ObjectId,
-        ref: 'Concert'
+        concert: {type: Schema.ObjectId, ref: 'Concert'},
+        validity: {type: Boolean, required: true}
     }]
 });
 

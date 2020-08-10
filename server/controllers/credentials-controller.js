@@ -16,8 +16,9 @@ const User = require('../models/user');
 const Concert = require('../models/concert');
 
 const credentialsController = {};
+const invalidConcerts = [];
 var ticketInfo;
-var infoStore;
+var infoValidation;
 const providerConfig = { rpcUrl: 'https://rinkeby.infura.io/ethr-did'}
 const ethrDidResolver = getResolver(providerConfig)
 
@@ -45,6 +46,18 @@ credentialsController.createCredentials = (req, res) => {
     })
 }
 
+credentialsController.askVerification = (req, res) => {
+  credentials.createDisclosureRequest({
+    verified: ['Concert'],
+    callbackUrl: endpoint + '/verify'
+  }).then(requestToken => {
+    console.log(decodeJWT(requestToken))  //log request token to console
+    const uri = message.paramsToQueryString(message.messageToURI(requestToken), {callback_type: 'post'})
+    const qr =  transports.ui.getImageDataURI(uri)
+    res.send(`<div><img src="${qr}"/></div>`)
+  })
+}
+
 credentialsController.ticketInfo = (req, res) => {
   ticketInfo = req.body;
 }
@@ -59,8 +72,12 @@ credentialsController.getConcerts = async (req, res) => {
   res.json(concerts);
 }
 
+credentialsController.updateUser = async (req, res) => {
+  infoValidation = req.body;
+}
+
 credentialsController.findUserByDID = async (req, res) => {
-  const getUserbyDID = await User.findOne({did: req.params.did}).populate('concerts').select({concerts: 1});
+  const getUserbyDID = await User.findOne({did: req.params.did}).populate('concerts.concert');
   res.json(getUserbyDID.concerts);
 }
 
@@ -70,33 +87,61 @@ credentialsController.getConcertbyId = async (req, res) => {
   res.json(concert);
 }
 
+credentialsController.verifyCredentials = (req, res) => {
+  const jwt = req.body.access_token
+  console.log(jwt)
+  console.log(decodeJWT(jwt))
+  credentials.authenticateDisclosureResponse(jwt).then(creds => {
+    //validate specific data per use case
+    console.log(creds)
+    console.log(creds.verified[0])
+  }).catch( err => {
+    console.log("oops")
+  })
+}
+
 credentialsController.authCredentials = (req, res) => {
     console.log("AUTHENTICATION");
-    const jwt = req.body.access_token
+    const jwt = req.body.access_token;
     credentials.authenticateDisclosureResponse(jwt).then(async creds => {
-      console.log('USUARIO PARA GUARDAR');
-      console.log(creds.did);
-      console.log('TICKET PARA GUARDAR');
-      console.log(ticketInfo);
+      //console.log('USUARIO PARA GUARDAR');
+      //console.log(creds);
+      //console.log('TICKET PARA GUARDAR');
+      //console.log(decodeJWT(jwt));
       
       const user = await User.find({did: creds.did});
-      console.log(user);
+      if(infoValidation != null) {
+      invalidConcerts.length = 0;
+      const oldOwner = await User.findOne({did: infoValidation.ownerDID}).populate('concerts.concert');
+      const oldOwnerConcerts = oldOwner.concerts;
+      console.log(oldOwnerConcerts)
+      for(var i = 0; i < oldOwnerConcerts.length;i++){
+        invalidConcerts.push(oldOwnerConcerts[i]);
+          if(oldOwnerConcerts[i].concert._id == infoValidation.concertID){
+          oldOwnerConcerts[i].validity = false;
+          //invalidConcerts.push(oldOwnerConcerts[i]);
+        }
+      }
+      console.log('INVALID CONCERTS')
+      console.log(invalidConcerts)
+      let userUpdated = await User.findOneAndUpdate({did: infoValidation.ownerDID}, {$set: {concerts: invalidConcerts}});
+      console.log('USER UPDATED')
+      console.log(userUpdated)
+      }
       if(user.length == 0){
         const newUser = new User({
           did: creds.did,
-          concerts: [ticketInfo.idConcert]
+          concerts: [{concert: ticketInfo.idConcert, validity: true}]
         });
         newUser.save(); 
       } else {
-        console.log("ELSEE")
-        const userUpdated = await User.findOneAndUpdate({did: user[0].did}, {$addToSet: {concerts: ticketInfo.idConcert}});
+        const userUpdated = await User.findOneAndUpdate({did: user[0].did}, {$addToSet: {concerts: [{concert: ticketInfo.idConcert, validity: true}]}});
         res.json(userUpdated);
       }
         
       const push = transports.push.send(creds.pushToken, creds.boxPub);
     
       const concert = await Concert.findById(ticketInfo.idConcert);
-      console.log(concert)
 
       credentials.createVerification({
         sub: creds.did,
@@ -113,8 +158,8 @@ credentialsController.authCredentials = (req, res) => {
       }).then(attestation => {
         console.log('attestation');
       console.log(attestation);
-        //console.log(`Encoded JWT sent to user: ${attestation}`)
-        //console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
+        console.log(`Encoded JWT sent to user: ${attestation}`)
+        console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
         return push(attestation)  // *push* the notification to the user's uPort mobile app.
       }).then(res => {
         console.log(res)

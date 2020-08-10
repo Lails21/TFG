@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Concert } from 'src/app/models/concert';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-exchange',
@@ -10,9 +11,10 @@ import { Concert } from 'src/app/models/concert';
 })
 export class ExchangeComponent implements OnInit {
 
-  constructor(private loginService: LoginService, private activatedRouter: ActivatedRoute, private router: Router) { }
+  constructor(private loginService: LoginService, private activatedRouter: ActivatedRoute, private router: Router, private dataService: DataService) { }
 
   i: string;
+  format: boolean;
   public shouldShow = true;
   didFriend: string;
   concert: Concert = new Concert();
@@ -33,6 +35,7 @@ export class ExchangeComponent implements OnInit {
 
   getConcertInfo() {
     console.log(this.concert._id);
+    this.dataService.concertID = this.concert._id;
     this.loginService.sendConcertInfo(this.concert._id)
       .subscribe(res => {
 
@@ -41,11 +44,15 @@ export class ExchangeComponent implements OnInit {
   }
 
   getFriendDID() {
-    console.log(this.didFriend);
-    if(this.didFriend === undefined){
-      console.log('DO NOTHING')
+    if (this.didFriend === undefined) {
+      console.log('INSERT YOUR FRIENDs DID');
     } else {
-      this.router.navigate(['/qrFriend']);
+      this.format = this.didFriend.startsWith('did:ethr:0x');
+      if (this.format === false) {
+            console.log('WRONG FORMAT OF THE DID');
+          } else {
+            this.router.navigate(['/qrFriend']);
+          }
     }
   }
 

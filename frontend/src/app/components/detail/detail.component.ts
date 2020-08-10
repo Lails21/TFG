@@ -31,10 +31,6 @@ export class DetailComponent implements OnInit {
     });
   }
 
-  checkout(i: string) {
-    this.data.changeMessage(i);
-  }
-
   getConcertInfo() {
     console.log(this.concert._id);
     this.loginService.sendConcertInfo(this.concert._id)

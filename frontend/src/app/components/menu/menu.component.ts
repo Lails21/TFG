@@ -26,10 +26,6 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  showDetail(i: string) {
-    this.data.changeMessage(i);
-  }
-
   viewConcert(_id: string) {
     console.log(_id);
     this.router.navigate(['/detail', _id]);

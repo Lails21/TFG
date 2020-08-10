@@ -16,6 +16,7 @@ import { ExchangeComponent } from './components/exchange/exchange.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QrFriendComponent } from './components/qr-friend/qr-friend.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { QrFriendComponent } from './components/qr-friend/qr-friend.component';
     HttpClientModule,
     QRCodeModule,
     MatFormFieldModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
