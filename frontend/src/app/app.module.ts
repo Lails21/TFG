@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { DetailComponent } from './components/detail/detail.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { DataService } from './services/data.service';
 import {HttpClientModule} from '@angular/common/http';
 import { QRCodeModule } from 'angularx-qrcode';
 import { SafePipe } from './safe.pipe';
@@ -17,6 +19,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QrFriendComponent } from './components/qr-friend/qr-friend.component';
 import { ToastrModule } from 'ngx-toastr';
+import { VerificationComponent } from './components/verification/verification.component';
+
+const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
 
 @NgModule({
   declarations: [
@@ -27,7 +32,8 @@ import { ToastrModule } from 'ngx-toastr';
     SafePipe,
     ConcertsComponent,
     ExchangeComponent,
-    QrFriendComponent
+    QrFriendComponent,
+    VerificationComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +48,10 @@ import { ToastrModule } from 'ngx-toastr';
     QRCodeModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    SocketIoModule.forRoot(config)
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

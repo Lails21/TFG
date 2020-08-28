@@ -3,6 +3,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Concert } from 'src/app/models/concert';
 import { DataService } from 'src/app/services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-exchange',
@@ -11,7 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class ExchangeComponent implements OnInit {
 
-  constructor(private loginService: LoginService, private activatedRouter: ActivatedRoute, private router: Router, private dataService: DataService) { }
+  constructor(private loginService: LoginService, private toastService: ToastrService, private activatedRouter: ActivatedRoute, private router: Router, private dataService: DataService) { }
 
   i: string;
   format: boolean;
@@ -45,11 +46,11 @@ export class ExchangeComponent implements OnInit {
 
   getFriendDID() {
     if (this.didFriend === undefined) {
-      console.log('INSERT YOUR FRIENDs DID');
+      this.toastService.error('INSERT YOUR FRIENDs DID, PLEASE');
     } else {
       this.format = this.didFriend.startsWith('did:ethr:0x');
       if (this.format === false) {
-            console.log('WRONG FORMAT OF THE DID');
+        this.toastService.error('WRONG FORMAT OF THE DID');
           } else {
             this.router.navigate(['/qrFriend']);
           }

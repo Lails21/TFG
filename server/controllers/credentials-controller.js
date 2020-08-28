@@ -11,6 +11,7 @@ const {getResolver} = require('ethr-did-resolver');
 const app = express();
 var mongoose = require('mongoose');
 var id = mongoose.Types.ObjectId();
+var socketHelper = require('../socket_helper.js');
 
 const User = require('../models/user');
 const Concert = require('../models/concert');
@@ -21,6 +22,7 @@ var ticketInfo;
 var infoValidation;
 const providerConfig = { rpcUrl: 'https://rinkeby.infura.io/ethr-did'}
 const ethrDidResolver = getResolver(providerConfig)
+
 
 // setup Credentials object with newly created application identity.
 const credentials = new Credentials({
@@ -54,7 +56,7 @@ credentialsController.askVerification = (req, res) => {
     console.log(decodeJWT(requestToken))  //log request token to console
     const uri = message.paramsToQueryString(message.messageToURI(requestToken), {callback_type: 'post'})
     const qr =  transports.ui.getImageDataURI(uri)
-    res.send(`<div><img src="${qr}"/></div>`)
+    res.send({"qr": qr});
   })
 }
 
@@ -82,7 +84,6 @@ credentialsController.findUserByDID = async (req, res) => {
 }
 
 credentialsController.getConcertbyId = async (req, res) => {
-  console.log(req.params.idConcert)
   const concert = await Concert.findById(req.params.idConcert);
   res.json(concert);
 }
@@ -91,11 +92,20 @@ credentialsController.verifyCredentials = (req, res) => {
   const jwt = req.body.access_token
   console.log(jwt)
   console.log(decodeJWT(jwt))
-  credentials.authenticateDisclosureResponse(jwt).then(creds => {
+  credentials.authenticateDisclosureResponse(jwt).then(async creds => {
     //validate specific data per use case
-    console.log(creds)
-    console.log(creds.verified[0])
+    console.log('CREDS')
+    console.log(creds.did)
+    const getUserbyDID = await User.findOne({did: creds.did}).populate('concerts.concert');
+    console.log(getUserbyDID.concerts[0].validity);
+
+    //console.log(creds)
+    /*console.log(creds)
+    console.log('CREDS VERIFIED')
+    console.log(creds.verified[0])*/
+    socketHelper.emitNotification('ACCESO');
   }).catch( err => {
+    console.log(err)
     console.log("oops")
   })
 }
@@ -104,17 +114,16 @@ credentialsController.authCredentials = (req, res) => {
     console.log("AUTHENTICATION");
     const jwt = req.body.access_token;
     credentials.authenticateDisclosureResponse(jwt).then(async creds => {
-      //console.log('USUARIO PARA GUARDAR');
-      //console.log(creds);
-      //console.log('TICKET PARA GUARDAR');
-      //console.log(decodeJWT(jwt));
+      console.log('USUARIO PARA GUARDAR');
+      console.log(creds);
+      console.log('TICKET PARA GUARDAR');
+      console.log(decodeJWT(jwt));
       
       const user = await User.find({did: creds.did});
       if(infoValidation != null) {
       invalidConcerts.length = 0;
       const oldOwner = await User.findOne({did: infoValidation.ownerDID}).populate('concerts.concert');
       const oldOwnerConcerts = oldOwner.concerts;
-      console.log(oldOwnerConcerts)
       for(var i = 0; i < oldOwnerConcerts.length;i++){
         invalidConcerts.push(oldOwnerConcerts[i]);
           if(oldOwnerConcerts[i].concert._id == infoValidation.concertID){
@@ -122,11 +131,8 @@ credentialsController.authCredentials = (req, res) => {
           //invalidConcerts.push(oldOwnerConcerts[i]);
         }
       }
-      console.log('INVALID CONCERTS')
-      console.log(invalidConcerts)
+
       let userUpdated = await User.findOneAndUpdate({did: infoValidation.ownerDID}, {$set: {concerts: invalidConcerts}});
-      console.log('USER UPDATED')
-      console.log(userUpdated)
       }
       if(user.length == 0){
         const newUser = new User({
@@ -158,8 +164,9 @@ credentialsController.authCredentials = (req, res) => {
       }).then(attestation => {
         console.log('attestation');
       console.log(attestation);
-        console.log(`Encoded JWT sent to user: ${attestation}`)
-        console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
+        //console.log(`Encoded JWT sent to user: ${attestation}`)
+        //console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
+        console.log(decodeJWT(attestation))
         return push(attestation)  // *push* the notification to the user's uPort mobile app.
       }).then(res => {
         console.log(res)

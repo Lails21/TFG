@@ -23,6 +23,7 @@ export class PurchaseComponent implements OnInit {
   id: string;
   qr: any;
 
+
   constructor(private data: DataService, private loginService: LoginService, private activatedRouter: ActivatedRoute, private router: Router) {}
 
   concertsList: Concert[] = [];

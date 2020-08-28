@@ -35,12 +35,11 @@ export class ConcertsComponent implements OnInit {
   getOwnerDID() {
     if (this.didOwner === undefined) {
       this.toastService.error('INSERT YOUR DID, PLEASE');
-      console.log('INSERT YOUR DID, PLEASE');
     } else {
       this.format = this.didOwner.startsWith('did:ethr:0x');
       this.dataService.ownerDID = this.didOwner;
       if (this.format === false) {
-            console.log('WRONG FORMAT OF THE DID');
+            this.toastService.error('WRONG FORMAT OF THE DID');
           } else {
             this.loginService.getConcertsByUser(this.didOwner)
             .subscribe(res => {

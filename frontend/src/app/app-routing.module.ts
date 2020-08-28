@@ -6,6 +6,7 @@ import { PurchaseComponent } from './components/purchase/purchase.component';
 import { ConcertsComponent } from './components/concerts/concerts.component';
 import { ExchangeComponent } from './components/exchange/exchange.component';
 import { QrFriendComponent } from './components/qr-friend/qr-friend.component';
+import { VerificationComponent } from './components/verification/verification.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'userConcert',
     component: ConcertsComponent
+  },
+  {
+    path: 'verify',
+    component: VerificationComponent
   },
   {
     path: 'qrFriend',

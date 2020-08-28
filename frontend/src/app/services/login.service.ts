@@ -40,4 +40,7 @@ export class LoginService {
     return this.http.get(this.URL_API + 'getConcert/' + idConcert);
   }
 
+  getQRVerification() {
+    return this.http.get(this.URL_API + 'ask');
+  }
 }
