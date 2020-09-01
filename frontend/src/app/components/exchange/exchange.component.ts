@@ -12,7 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ExchangeComponent implements OnInit {
 
-  constructor(private loginService: LoginService, private toastService: ToastrService, private activatedRouter: ActivatedRoute, private router: Router, private dataService: DataService) { }
+  constructor(private loginService: LoginService, private toastService: ToastrService,
+              private activatedRouter: ActivatedRoute, private router: Router, private dataService: DataService) { }
 
   i: string;
   format: boolean;

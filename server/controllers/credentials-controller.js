@@ -97,13 +97,16 @@ credentialsController.verifyCredentials = (req, res) => {
     console.log('CREDS')
     console.log(creds.did)
     const getUserbyDID = await User.findOne({did: creds.did}).populate('concerts.concert');
-    console.log(getUserbyDID.concerts[0].validity);
+    if(getUserbyDID.concerts[0].validity === true) {
+      socketHelper.emitNotification('ACCESS GRANTED');
+    } else {
+      socketHelper.emitNotification('ACCESS DENIED');
+    }
 
-    //console.log(creds)
-    /*console.log(creds)
+    /*console.log('creds')
+    console.log(creds)
     console.log('CREDS VERIFIED')
     console.log(creds.verified[0])*/
-    socketHelper.emitNotification('ACCESO');
   }).catch( err => {
     console.log(err)
     console.log("oops")

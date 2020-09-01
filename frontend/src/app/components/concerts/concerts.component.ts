@@ -14,14 +14,15 @@ import { DataService } from 'src/app/services/data.service';
 export class ConcertsComponent implements OnInit {
 
   concertsUser: UserConcerts[] = [];
-  isHidden: boolean = true;
+  isHidden = true;
   didOwner: string;
   format: boolean;
   total: string;
   concertPrice: number;
-  totalConcerts: number = 0;
+  totalConcerts = 0;
 
-  constructor(private loginService: LoginService, private router: Router, private toastService: ToastrService, private dataService: DataService) { }
+  constructor(private loginService: LoginService, private router: Router,
+              private toastService: ToastrService, private dataService: DataService) { }
 
   ngOnInit() {
 
@@ -46,7 +47,7 @@ export class ConcertsComponent implements OnInit {
               this.isHidden = false;
               this.concertsUser = res as UserConcerts[];
               for (let i = 0; i < this.concertsUser.length; i++) {
-                console.log(this.concertsUser[i].concert.singer)
+                console.log(this.concertsUser[i].concert.singer);
                 this.concertPrice = parseInt(this.concertsUser[i].concert.price);
                 this.total = (this.concertPrice + this.totalConcerts).toFixed(2).replace('.', ',');
                 this.totalConcerts = this.concertPrice;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-verification',
@@ -13,7 +14,8 @@ export class VerificationComponent implements OnInit {
   qr: any;
   ioConnection: any;
 
-  constructor(private loginService: LoginService, private router: ActivatedRoute, private dataService: DataService) { }
+  constructor(private loginService: LoginService, private router: ActivatedRoute,
+              private dataService: DataService, private toastService: ToastrService) { }
 
   ngOnInit() {
     this.getQRVerification();
@@ -32,7 +34,12 @@ export class VerificationComponent implements OnInit {
     this.ioConnection = this.dataService.onMessage()
     .subscribe((message: any) => {
       console.log(message)
-    })
+      if (message === 'ACCESS GRANTED') {
+        this.toastService.error('ACCESS GRANTED');
+      } else {
+        this.toastService.error('ACCESS DENIED');
+      }
+    });
   }
 
 }
